@@ -12,9 +12,9 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'REST API пример',
+      title: 'REST API HTTP-CAT',
       version: '1.0.0',
-      description: 'Пример REST API с CRUD-операциями для ресурса "items"',
+      description: 'Это копия популярного апи http-cat с управлением кеширования запросов.',
     },
     servers: [
       {
@@ -39,6 +39,7 @@ app.all('*', (req, res, next) => {
 });
 
 app.use(globalErrorHandler);
+
 app.listen(PORT, () => {
   console.log(`Сервер запущен на порту ${PORT}`);
 });

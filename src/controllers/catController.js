@@ -1,9 +1,6 @@
 const path = require("node:path");
-const fs = require("node:fs");
-const CacheService = require("../services/CacheService");
+const CatService = require('./../services/catService')
 const AppError = require("../utils/appError");
-const CAT_IMAGES_DIRECTORY = path.join(__dirname, '..', 'pictures', 'cat-images');
-
 /**
  * @swagger
  * /api/v1/{code}:
@@ -18,7 +15,7 @@ const CAT_IMAGES_DIRECTORY = path.join(__dirname, '..', 'pictures', 'cat-images'
  *         description: Статус-код изображения кота/кошки
  *     responses:
  *       200:
- *         description: Изображение кошки
+ *         description: Изображение кота/кошки
  *         content:
  *           image/jpeg:
  *             schema:
@@ -27,27 +24,13 @@ const CAT_IMAGES_DIRECTORY = path.join(__dirname, '..', 'pictures', 'cat-images'
  */
 exports.getCat = async (req, res, next) => {
     const statusCode = parseInt(req.params.code);
-    const catImagePath = path.join(CAT_IMAGES_DIRECTORY, `cat-${statusCode}.jpeg`);
-
-    // Проверка кэша
-    const cachedImage = CacheService.get(catImagePath);
-    if (cachedImage) {
-        // Отправка изображения из кэша
-        res.contentType('image/jpeg');
-        return res.send(cachedImage);
+    try {
+        const catImage = await CatService.getCatImage(statusCode);
+        res
+            .contentType('image/jpeg')
+            .send(catImage)
+    } catch (err) {
+        return next(new AppError('Code does not exist', 404));
     }
-
-    fs.readFile(catImagePath, (err, data) => {
-        if (err) {
-            return next(new AppError('Code does not exist', 404));
-        }
-
-        // Сохранение изображения в кэше
-        CacheService.set(catImagePath, data);
-
-        // Отправка изображения
-        res.contentType('image/jpeg');
-        return res.send(data);
-    });
 }
 
