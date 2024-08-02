@@ -1,6 +1,5 @@
-const path = require("node:path");
 const CatService = require('./../services/catService')
-const AppError = require("../utils/appError");
+const AppError = require('../utils/appError')
 /**
  * @swagger
  * /api/v1/{code}:
@@ -23,14 +22,11 @@ const AppError = require("../utils/appError");
  *               format: binary
  */
 exports.getCat = async (req, res, next) => {
-    const statusCode = parseInt(req.params.code);
-    try {
-        const catImage = await CatService.getCatImage(statusCode);
-        res
-            .contentType('image/jpeg')
-            .send(catImage)
-    } catch (err) {
-        return next(new AppError('Code does not exist', 404));
-    }
+  const statusCode = parseInt(req.params.code)
+  try {
+    const catImage = await CatService.getCatImage(statusCode)
+    res.contentType('image/jpeg').send(catImage)
+  } catch (err) {  // eslint-disable-line
+    return next(new AppError('Code does not exist', 404))
+  }
 }
-

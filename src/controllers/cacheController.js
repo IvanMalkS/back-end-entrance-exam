@@ -1,4 +1,4 @@
-const CacheService = require("../services/CacheService");
+const CacheService = require('../services/CacheService')
 
 /**
  * @swagger
@@ -25,9 +25,9 @@ const CacheService = require("../services/CacheService");
  *
  */
 exports.getCache = async (req, res) => {
-    const info = CacheService.getCacheInfo();
-    res.send(info)
-};
+  const info = CacheService.getCacheInfo()
+  res.send(info)
+}
 
 /**
  * @swagger
@@ -68,9 +68,9 @@ exports.getCache = async (req, res) => {
  *                   description: Статус-коды с ошибками
  */
 exports.createCache = async (req, res) => {
-    const codes = req.body.codes
-    const info = await CacheService.createCache(codes);
-    res.send(info)
+  const codes = req.body.codes
+  const info = await CacheService.createCache(codes)
+  res.send(info)
 }
 
 /**
@@ -100,10 +100,10 @@ exports.createCache = async (req, res) => {
  *                   description: Новый размер кэша
  */
 exports.updateCache = async (req, res) => {
-    const { size } = req.body;
-    const info = CacheService.resize(size);
-    res.send(info);
-};
+  const { size } = req.body
+  const info = CacheService.resize(size)
+  res.send(info)
+}
 
 /**
  * @swagger
@@ -126,6 +126,6 @@ exports.updateCache = async (req, res) => {
  *                   description: Занятый размер кэша после очистки
  */
 exports.clearCache = async (req, res) => {
-    const info = CacheService.clear();
-    res.send(info);
-};
+  const info = CacheService.clear()
+  res.send(info)
+}
